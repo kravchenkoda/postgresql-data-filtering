@@ -1,0 +1,1 @@
+SELECT (SELECT COUNT(id) FROM beers_quarantine) as corrupted_rows, (SELECT COUNT(id) FROM beers_filtered) as clear_rows;
