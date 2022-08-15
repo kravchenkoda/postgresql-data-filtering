@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS beer.beers(
-   id         INTEGER  NOT NULL PRIMARY KEY 
-  ,name       VARCHAR(100) NOT NULL
-  ,ibu        INTEGER  NOT NULL
-  ,abv        NUMERIC(4,1) NOT NULL
-  ,style_id   INTEGER  NOT NULL references beer.styles (id)
-  ,brewery_id INTEGER  NOT NULL references beer.breweries (id)
-  ,ounces     NUMERIC(4,1) NOT NULL
+   id         INTEGER NOT NULL PRIMARY KEY,
+   name       VARCHAR(100) NOT NULL,
+   ibu        INTEGER NOT NULL,
+   abv        NUMERIC(4,1) NOT NULL,
+   style_id   INTEGER NOT NULL references beer.styles (id),
+   brewery_id INTEGER NOT NULL references beer.breweries (id),
+   ounces     NUMERIC(4,1) NOT NULL
 );
 INSERT INTO beer.beers(id,name,ibu,abv,style_id,brewery_id,ounces) VALUES (1,'Pub Beer',57,5,92,408,12) ON CONFLICT DO NOTHING;
 INSERT INTO beer.beers(id,name,ibu,abv,style_id,brewery_id,ounces) VALUES (2,'Devil''s Cup',52,6.6,64,177,12) ON CONFLICT DO NOTHING;

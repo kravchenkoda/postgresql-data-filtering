@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS beer.styles(
-   id   INTEGER  NOT NULL PRIMARY KEY 
-  ,name VARCHAR(50) NOT NULL
+   id   INTEGER NOT NULL PRIMARY KEY,
+   name VARCHAR(50) NOT NULL
 );
 INSERT INTO beer.styles(id,name) VALUES (1,'American Pale Lager') ON CONFLICT DO NOTHING;
 INSERT INTO beer.styles(id,name) VALUES (2,'American Pale Ale (APA)') ON CONFLICT DO NOTHING;
