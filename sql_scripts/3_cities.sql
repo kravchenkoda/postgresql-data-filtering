@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS beer.cities(
    id       INTEGER  NOT NULL PRIMARY KEY,
    name     VARCHAR(19) NOT NULL,
-   state_id INTEGER NOT NULL references beer.states (id)
+   state_id INTEGER NOT NULL references beer.states (id),
+   created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
+   updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
 INSERT INTO beer.cities(id,name,state_id) VALUES (1,'Minneapolis',31) ON CONFLICT DO NOTHING;
 INSERT INTO beer.cities(id,name,state_id) VALUES (2,'Louisville',44) ON CONFLICT DO NOTHING;

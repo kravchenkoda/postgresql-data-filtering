@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS beer.styles(
    id   INTEGER NOT NULL PRIMARY KEY,
-   name VARCHAR(50) NOT NULL
+   name VARCHAR(50) NOT NULL,
+   created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
+   updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
 INSERT INTO beer.styles(id,name) VALUES (1,'American Pale Lager') ON CONFLICT DO NOTHING;
 INSERT INTO beer.styles(id,name) VALUES (2,'American Pale Ale (APA)') ON CONFLICT DO NOTHING;

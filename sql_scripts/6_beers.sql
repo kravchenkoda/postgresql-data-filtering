@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS beer.beers(
    abv        NUMERIC(4,1) NOT NULL,
    style_id   INTEGER NOT NULL references beer.styles (id),
    brewery_id INTEGER NOT NULL references beer.breweries (id),
-   ounces     NUMERIC(4,1) NOT NULL
+   ounces     NUMERIC(4,1) NOT NULL,
+   created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
+   updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
 INSERT INTO beer.beers(id,name,ibu,abv,style_id,brewery_id,ounces) VALUES (1,'Pub Beer',57,5,92,408,12) ON CONFLICT DO NOTHING;
 INSERT INTO beer.beers(id,name,ibu,abv,style_id,brewery_id,ounces) VALUES (2,'Devil''s Cup',52,6.6,64,177,12) ON CONFLICT DO NOTHING;

@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS beer.breweries(
    id      INTEGER NOT NULL PRIMARY KEY,
    name    VARCHAR(100) NOT NULL,
-   city_id INTEGER NOT NULL references beer.cities (id)
+   city_id INTEGER NOT NULL references beer.cities (id),
+   created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
+   updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
 INSERT INTO beer.breweries(id,name,city_id) VALUES (1,'NorthGate Brewing',542) ON CONFLICT DO NOTHING;
 INSERT INTO beer.breweries(id,name,city_id) VALUES (2,'Against the Grain Brewery',32) ON CONFLICT DO NOTHING;
