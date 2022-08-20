@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS beer.cities(
    created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
    updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
+    SELECT beer.trigger_creation('beer','beer.cities','tr_b_cities');
 INSERT INTO beer.cities(id,name,state_id) VALUES (1,'Minneapolis',31) ON CONFLICT DO NOTHING;
 INSERT INTO beer.cities(id,name,state_id) VALUES (2,'Louisville',44) ON CONFLICT DO NOTHING;
 INSERT INTO beer.cities(id,name,state_id) VALUES (3,'Framingham',46) ON CONFLICT DO NOTHING;

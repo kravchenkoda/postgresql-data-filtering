@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS beer.states(
    created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
    updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
+    SELECT beer.trigger_creation('beer','beer.states','tr_b_states');
 INSERT INTO beer.states(id,name) VALUES (1,'Alaska') ON CONFLICT DO NOTHING;
 INSERT INTO beer.states(id,name) VALUES (2,'Alabama') ON CONFLICT DO NOTHING;
 INSERT INTO beer.states(id,name) VALUES (3,'Arkansas') ON CONFLICT DO NOTHING;

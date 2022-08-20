@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS beer.beers(
    created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
    updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
+    SELECT beer.trigger_creation('beer','beer.beers','tr_b_beers');
 INSERT INTO beer.beers(id,name,ibu,abv,style_id,brewery_id,ounces) VALUES (1,'Pub Beer',57,5,92,408,12) ON CONFLICT DO NOTHING;
 INSERT INTO beer.beers(id,name,ibu,abv,style_id,brewery_id,ounces) VALUES (2,'Devil''s Cup',52,6.6,64,177,12) ON CONFLICT DO NOTHING;
 INSERT INTO beer.beers(id,name,ibu,abv,style_id,brewery_id,ounces) VALUES (3,'Rise of the Phoenix',73,7.1,28,177,12) ON CONFLICT DO NOTHING;

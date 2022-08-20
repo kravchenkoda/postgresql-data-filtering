@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS beer.breweries(
    created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
    updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
+    SELECT beer.trigger_creation('beer','beer.breweries','tr_b_breweries');
 INSERT INTO beer.breweries(id,name,city_id) VALUES (1,'NorthGate Brewing',542) ON CONFLICT DO NOTHING;
 INSERT INTO beer.breweries(id,name,city_id) VALUES (2,'Against the Grain Brewery',32) ON CONFLICT DO NOTHING;
 INSERT INTO beer.breweries(id,name,city_id) VALUES (3,'Jack''s Abby Craft Lagers',533) ON CONFLICT DO NOTHING;

@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS beer.styles(
    created_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc'),
    updated_at TIMESTAMP without TIME ZONE DEFAULT (now() at time zone 'utc')
 );
+    SELECT beer.trigger_creation('beer','beer.styles','tr_b_styles');
 INSERT INTO beer.styles(id,name) VALUES (1,'American Pale Lager') ON CONFLICT DO NOTHING;
 INSERT INTO beer.styles(id,name) VALUES (2,'American Pale Ale (APA)') ON CONFLICT DO NOTHING;
 INSERT INTO beer.styles(id,name) VALUES (3,'American IPA') ON CONFLICT DO NOTHING;
