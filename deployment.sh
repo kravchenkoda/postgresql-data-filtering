@@ -1,21 +1,51 @@
 #! /usr/bin/env bash
-
-var_f=./.env
-password=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 13 ; echo '')
-scripts=$(ls -v ./sql_scripts/{1..11}_*.sql)
-count="./sql_scripts/12_result.sql"
+file=./.env
+gr=$(grep -c "PGROLE\|PGUSER\|PGHOST\|PGPORT\|PGDATABASE\|PGPASSWORD" $file 2>/dev/null)
+scripts=$(ls -v ./sql_scripts/{1..10}_*.sql)
+count="./sql_scripts/11_result.sql"
 do='$do$'
 
 set -x
 
-#Random password generation
-if grep -L "PGPASSWORD" $var_f
-     then echo -e "\nPGPASSWORD='$password'" >> $var_f
+if
+        test -f $file;
+then
+        if
+                 [ "$gr" -lt 6 ]
+        then
+                           read -p 'Please enter the database name: ' PGDATABASE
+                           read -p 'Please enter a username: ' PGUSER
+                           read -p 'Please enter a role name: ' PGROLE
+                           read -sp 'Please enter a password: ' PGPASSWORD
+                           echo -e "PGDATABASE=$PGDATABASE
+                                \nPGROLE=$PGROLE
+                                \nPGUSER=$PGUSER
+                                \nPGHOST=localhost
+                                \nPGPORT=5432
+                                \nPGPASSWORD=$PGPASSWORD" > $file
+
+        else
+                           echo "The .env file with log in credentials already exists. Skipping"
+        fi
+else
+        read -p 'Please enter the database name: ' PGDATABASE
+        read -p 'Please enter a username: ' PGUSER
+        read -p 'Please enter a role name: ' PGROLE
+        read -sp 'Please enter a password: ' PGPASSWORD
+        touch .env
+        echo -e "PGDATABASE=$PGDATABASE
+              \nPGROLE=$PGROLE
+              \nPGUSER=$PGUSER
+              \nPGHOST=localhost
+              \nPGPORT=5432
+              \nPGPASSWORD=$PGPASSWORD" > $file
+
 fi
 
-#Role, user and database creation
 set -o allexport
 source .env
+
+#Role, user and database creation
 
 sudo -u postgres psql postgres -c "
 
@@ -28,7 +58,7 @@ BEGIN
    THEN
       RAISE NOTICE 'Role $PGROLE already exists. Skipping.';
    ELSE
-      CREATE ROLE admins;
+      CREATE ROLE $PGROLE;
       RAISE NOTICE 'Role $PGROLE has been created';
    END IF;
 END
@@ -65,9 +95,18 @@ BEGIN
    END IF;
 END
 $do;
-
 GRANT $PGROLE TO $PGUSER;
 GRANT ALL ON DATABASE $PGDATABASE TO $PGROLE;
+"
+
+#Schema creation
+
+PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -c "
+CREATE SCHEMA
+    IF NOT EXISTS beer;
+GRANT ALL
+    ON SCHEMA beer
+    TO $PGROLE;
 "
 
 #Inerting data and tables creation

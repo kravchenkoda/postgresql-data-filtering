@@ -1,5 +1,0 @@
-CREATE SCHEMA
-    IF NOT EXISTS beer;
-GRANT ALL
-    ON SCHEMA beer
-    TO admins;
