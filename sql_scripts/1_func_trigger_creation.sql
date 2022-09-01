@@ -27,7 +27,7 @@ BEGIN
 
     IF  trigger_existence IS TRUE
     THEN
-	    RAISE NOTICE 'Trigger exists. Skipping.';
+	    RAISE NOTICE 'Trigger already exists, skipping';
     ELSE
 	    EXECUTE ('CREATE TRIGGER' || ' ' || trigger_n || ' ' ||
         'BEFORE UPDATE ON' || ' ' || schema_n || '.' || table_n || ' '|| 'FOR EACH ROW EXECUTE FUNCTION beer.trigger_set_timestamp()');

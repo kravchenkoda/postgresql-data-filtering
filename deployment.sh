@@ -5,8 +5,6 @@ scripts=$(ls -v ./sql_scripts/{1..10}_*.sql)
 count="./sql_scripts/11_result.sql"
 do='$do$'
 
-set -x
-
 if
         test -f $file;
 then
@@ -14,8 +12,10 @@ then
                  [ "$gr" -lt 6 ]
         then
                            read -p 'Please enter the database name: ' PGDATABASE
-                           read -p 'Please enter a username: ' PGUSER
                            read -p 'Please enter a role name: ' PGROLE
+                           read -p 'Please enter a username: ' PGUSER
+                           sudo -u postgres psql postgres -c "SELECT 1 FROM pg_roles WHERE rolname='$PGUSER'" | grep -q 1 \
+                           && echo "The user '$PGUSER' already exists in Postgres. Please enter a valid password to avoid password authentication error."
                            read -sp 'Please enter a password: ' PGPASSWORD
                            echo -e "PGDATABASE=$PGDATABASE
                                 \nPGROLE=$PGROLE
@@ -25,12 +25,14 @@ then
                                 \nPGPASSWORD=$PGPASSWORD" > $file
 
         else
-                           echo "The .env file with log in credentials already exists. Skipping"
+                           echo "The .env file with log in credentials already exists, skipping"
         fi
 else
         read -p 'Please enter the database name: ' PGDATABASE
-        read -p 'Please enter a username: ' PGUSER
         read -p 'Please enter a role name: ' PGROLE
+        read -p 'Please enter a username: ' PGUSER
+        sudo -u postgres psql postgres -c "SELECT 1 FROM pg_roles WHERE rolname='$PGUSER'" | grep -q 1 \
+        && echo "The '$PGUSER' user already exists in Postgres. Please enter a valid password to avoid password authentication error."
         read -sp 'Please enter a password: ' PGPASSWORD
         touch .env
         echo -e "PGDATABASE=$PGDATABASE
@@ -56,7 +58,7 @@ BEGIN
       SELECT FROM pg_catalog.pg_roles
       WHERE  rolname like '$PGROLE')
    THEN
-      RAISE NOTICE 'Role $PGROLE already exists. Skipping.';
+      RAISE NOTICE 'Role $PGROLE already exists, skipping.';
    ELSE
       CREATE ROLE $PGROLE;
       RAISE NOTICE 'Role $PGROLE has been created';
@@ -121,5 +123,3 @@ psql -A -f $count > result.txt;
 set +o allexport
 
 cat result.txt
-
-set +x
