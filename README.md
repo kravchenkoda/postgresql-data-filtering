@@ -57,7 +57,7 @@ That is exactly the kind of data this script is going to sort.
 
 ---
 
-Once the loop starts to execute files from ~./sql_scripts` it performs the following actions:
+Once the loop starts to execute files from `./sql_scripts` it performs the following actions:
 * Creates the `beer.trigger_set_timestamp()` function which alters the `updated_at` column in every table when a row is updated.
 * Creates the `beer.trigger_creation()` function that checks whether the trigger for the `updated_at` column exists and creates it if necessary. 
 * Creates tables due to standard data normalization practices *(states, cities, breweries, beers, beers_quarantine, beers_filtered)*, inserts data into it, takes parameters and executes `beer.trigger_creation()`.
