@@ -1,6 +1,5 @@
 # PostgreSQL data filtering
 
----
 
 This project aims to demonstrate an example of automated data sorting using the bash script that runs SQL queries in the PostgreSQL RDBMS.
 
@@ -30,7 +29,6 @@ That is exactly the kind of data this script is going to sort.
 
 ## The overall deployment process
 
----
 
 * The bash script asks the user to input the name of the database, role, user and a password for Postgres.
 * Creates the `.env` file in the project root repository and puts `PGUSER` `PGROLE` `PGDATABASE` variables inside. As well as `PGHOST` and `PGPORT` with the default values of `localhost` and `5432` respectively. 
@@ -42,7 +40,6 @@ That is exactly the kind of data this script is going to sort.
 
 ## `deployment.sh` additional details
 
----
 
 * This script as well as SQL queries it uses are stateful, so it may be run multiple times with no exceptions.
 * If the entered username already exists in Postgres, the script will display a message prompting the user to enter a valid existing password in order to avoid an authentication error.
@@ -51,11 +48,9 @@ That is exactly the kind of data this script is going to sort.
 
 ## SQL Scripts and the `beer` Schema visualisation
 
----
 
 <img src="https://i.ibb.co/QKgs3Fj/postgresql-data-filtering-DDL-2.png" alt="drawing" width="700"/>
 
----
 
 Once the loop starts to execute files from `./sql_scripts` it performs the following actions:
 * Creates the `beer.trigger_set_timestamp()` function which alters the `updated_at` column in every table when a row is updated.
