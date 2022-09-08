@@ -32,7 +32,7 @@ That is exactly the kind of data this script is going to sort.
 
 * The bash script asks the user to input the name of the database, role, user and a password for Postgres.
 * Creates the `.env` file in the project root repository and puts `PGUSER` `PGROLE` `PGDATABASE` variables inside. As well as `PGHOST` and `PGPORT` with the default values of `localhost` and `5432` respectively. 
-*(You may change host and port in the development.sh file.)*
+*(You may change `PGHOST` and `PGPORT` either in the `development.sh` file or in the `.env` file after the first run)*
 * Logs into the postgres database as a root and uses `PGUSER`, `PGROLE`, `PGDATABASE` variables from `.env` file to create the user, database and role. Gives privilege to the role and grants the user to this role.
 * Logs into the database with the new user and creates the `beer` schema
 * Starts a loop executing `.sql` files from `./sql_scripts` by the version *(1_\*.sql, 2_\*.sql, 3_\*.sql)*. Creates tables, inserts data, creates functions for stateful trigger creation for each table, passes parameters and executes them.
@@ -46,7 +46,7 @@ That is exactly the kind of data this script is going to sort.
 * Once executed not for the first time and if the `.env` file for some reason does not contain at least one of the required variables, it will ask to enter username, role, database name and the password once again to re-write the `.env` file.
 * In case the database, role or the user already exists, the script is going to skip it and will raise appropriate notice.
 
-## SQL Scripts and the `beer` Schema visualisation
+## SQL Scripts and the `beer` Schema visualization
 
 
 <img src="https://i.ibb.co/QKgs3Fj/postgresql-data-filtering-DDL-2.png" alt="drawing" width="700"/>
