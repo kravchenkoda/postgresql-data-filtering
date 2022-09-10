@@ -31,7 +31,7 @@ That is exactly the kind of data this script is going to sort.
 
 
 * The bash script asks the user to input the name of the database, role, user and a password for Postgres.
-* Creates the `.env` file in the project root repository and puts `PGUSER` `PGROLE` `PGDATABASE` variables inside. As well as `PGHOST` and `PGPORT` with the default values of `localhost` and `5432` respectively. 
+* Creates the `.env` file in the project root repository and puts `PGUSER` `PGROLE` `PGDATABASE` variables inside. As well as `PGHOST` and `PGPORT` with the default values of `localhost`, `5432` respectively. 
 *(You may change `PGHOST` and `PGPORT` either in the `development.sh` file or in the `.env` file after the first run)*
 * Logs into the postgres database as a root and uses `PGUSER`, `PGROLE`, `PGDATABASE` variables from `.env` file to create the user, database and role. Gives privilege to the role and grants the user to this role.
 * Logs into the database with the new user and creates the `beer` schema
