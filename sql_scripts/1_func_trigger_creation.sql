@@ -17,7 +17,7 @@ CREATE OR REPLACE FUNCTION beer.trigger_creation(
     AS $$
     DECLARE trigger_existence BOOLEAN;
 BEGIN
-    SELECT INTO trigger_existence(
+    trigger_existence = (
         SELECT EXISTS(
         SELECT * FROM information_schema.triggers
         WHERE event_object_schema = schema_n

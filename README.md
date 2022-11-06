@@ -36,7 +36,7 @@ That is exactly the kind of data this script is going to sort.
 * Logs into the postgres database as a root and uses `PGUSER`, `PGROLE`, `PGDATABASE` variables from `.env` file to create the user, database and role. Gives privilege to the role and grants the user to this role.
 * Logs into the database with the new user and creates the `beer` schema
 * Starts a loop executing `.sql` files from `./sql_scripts` by the version *(1_\*.sql, 2_\*.sql, 3_\*.sql)*. Creates tables, inserts data, creates functions for stateful trigger creation for each table, passes parameters and executes them.
-* Filters the data and stores it in the `result.txt`` file demonstrating the number of corrupted rows and the number of clear rows sorted out by the script.
+* Filters the data and stores it in the `result.txt` file demonstrating the number of corrupted rows and the number of clear rows sorted out by the script.
 
 ## `deployment.sh` additional details
 
