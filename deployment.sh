@@ -5,43 +5,25 @@ scripts=$(ls -v ./sql_scripts/{1..10}_*.sql)
 count="./sql_scripts/11_result.sql"
 do='$do$'
 
-if
-        test -f $file;
-then
-        if
-                 [ "$gr" -lt 6 ]
-        then
-                           read -p 'Please enter the database name: ' PGDATABASE
-                           read -p 'Please enter a role name: ' PGROLE
-                           read -p 'Please enter a username: ' PGUSER
-                           sudo -u postgres psql postgres -c "SELECT 1 FROM pg_roles WHERE rolname='$PGUSER'" | grep -q 1 \
-                           && echo "The user '$PGUSER' already exists in Postgres. Please enter a valid password to avoid password authentication error."
-                           read -sp 'Please enter a password: ' PGPASSWORD
-                           echo -e "PGDATABASE=$PGDATABASE
-                                \nPGROLE=$PGROLE
-                                \nPGUSER=$PGUSER
-                                \nPGHOST=localhost
-                                \nPGPORT=5432
-                                \nPGPASSWORD=$PGPASSWORD" > $file
-
-        else
-                           echo "The .env file with log in credentials already exists, skipping"
-        fi
+if [[ -f $file && $(grep -c "PGROLE\|PGUSER\|PGHOST\|PGPORT\|PGDATABASE\|PGPASSWORD" $file 2>/dev/null) -ge 6 ]]; then
+    echo "The .env file with login credentials already exists. Skipping."
 else
-        read -p 'Please enter the database name: ' PGDATABASE
-        read -p 'Please enter a role name: ' PGROLE
-        read -p 'Please enter a username: ' PGUSER
-        sudo -u postgres psql postgres -c "SELECT 1 FROM pg_roles WHERE rolname='$PGUSER'" | grep -q 1 \
-        && echo "The '$PGUSER' user already exists in Postgres. Please enter a valid password to avoid password authentication error."
-        read -sp 'Please enter a password: ' PGPASSWORD
-        touch .env
-        echo -e "PGDATABASE=$PGDATABASE
-              \nPGROLE=$PGROLE
-              \nPGUSER=$PGUSER
-              \nPGHOST=localhost
-              \nPGPORT=5432
-              \nPGPASSWORD=$PGPASSWORD" > $file
+    read -p 'Please enter the database name: ' PGDATABASE
+    read -p 'Please enter a role name: ' PGROLE
+    read -p 'Please enter a username: ' PGUSER
 
+    if sudo -u postgres psql postgres -c "SELECT 1 FROM pg_roles WHERE rolname='$PGUSER'" | grep -q 1; then
+        echo "The user '$PGUSER' already exists in Postgres. Please enter a valid password to avoid password authentication error."
+    fi
+
+    read -sp 'Please enter a password: ' PGPASSWORD
+
+    echo -e "PGDATABASE=$PGDATABASE
+PGROLE=$PGROLE
+PGUSER=$PGUSER
+PGHOST=localhost
+PGPORT=5432
+PGPASSWORD=$PGPASSWORD" > $file
 fi
 
 set -o allexport
