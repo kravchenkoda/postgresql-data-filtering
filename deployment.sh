@@ -1,6 +1,5 @@
 #! /usr/bin/env bash
 file=./.env
-gr=$(grep -c "PGROLE\|PGUSER\|PGHOST\|PGPORT\|PGDATABASE\|PGPASSWORD" $file 2>/dev/null)
 scripts=$(ls -v ./sql_scripts/{1..10}_*.sql)
 count="./sql_scripts/11_result.sql"
 do='$do$'
@@ -29,7 +28,7 @@ fi
 set -o allexport
 source .env
 
-#Role, user and database creation
+# Role, user and database creation
 
 sudo -u postgres psql postgres -c "
 
@@ -93,13 +92,13 @@ GRANT ALL
     TO $PGROLE;
 "
 
-#Inerting data and tables creation
+# Inserting data and tables creation
 for file in $scripts
 do
       psql -A -f "$file";
 done
 
-#Corrupted and clear rows count
+# Corrupted and clear rows count
 psql -A -f $count > result.txt;
 
 set +o allexport
